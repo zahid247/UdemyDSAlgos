@@ -1,4 +1,4 @@
-package singlyLinkedList;
+package JDSAlgoMasterclass.singlyLinkedList;
 public class SinglyLinkedList {
     public Node head;
     public Node tail;
@@ -240,8 +240,4 @@ public class SinglyLinkedList {
         }
         return null;
     }
-
-
-
-
 }

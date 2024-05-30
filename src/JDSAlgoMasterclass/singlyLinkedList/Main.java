@@ -1,4 +1,4 @@
-package singlyLinkedList;
+package JDSAlgoMasterclass.singlyLinkedList;
 
 public class Main {
 
