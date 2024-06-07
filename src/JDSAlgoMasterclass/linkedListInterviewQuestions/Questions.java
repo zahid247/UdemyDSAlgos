@@ -2,13 +2,6 @@ package JDSAlgoMasterclass.linkedListInterviewQuestions;
 
 public class Questions {
 
-    /*
-    linkedList = 1->2->1->3
-    deleteDups(linkedList)
-
-    Output:
-    1->2->3
-     */
     public boolean deleteDups(LinkedListMine ll) {
 
         int size = ll.size;
@@ -38,6 +31,22 @@ public class Questions {
             first = first.next;
         }
         return false;
+    }
+
+    public Node nthToLast(LinkedListMine ll, int location){
+
+        if (ll.size == 0) return null;
+
+        if (ll.size == 1 || location >= ll.size) return ll.head;
+
+        Node current = ll.head;
+        for (int i = 0; i < ll.size; i++) {
+
+            if (i == ll.size-location) return current;
+
+            current = current.next;
+        }
+        return null;
     }
 
 }

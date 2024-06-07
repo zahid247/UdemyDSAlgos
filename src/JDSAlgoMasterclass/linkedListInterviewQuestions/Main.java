@@ -17,8 +17,10 @@ public class Main {
         ll.traversalLL();
 
         Questions q = new Questions();
-        System.out.println(q.deleteDups(ll));
+        System.out.println("deleteDups is running!" + q.deleteDups(ll));
         ll.traversalLL();
+
+        System.out.println("nthToLast = " + q.nthToLast(ll, 4).value);
 
     }
 
