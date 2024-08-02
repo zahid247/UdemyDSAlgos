@@ -1,15 +1,56 @@
 package JDSAlgoMasterclass.recursionExercises;
 
+import java.util.Arrays;
+
 public class Exercises {
 
     public static void main(String[] args) {
 
         Exercises ex = new Exercises();
 
-        System.out.println(ex.capitalizeWord("azazaZzazaCDzazAaza"));
+//        System.out.println(ex.capitalizeWord("azazaZzazaCDzazAaza"));
+//
+//        char i = 'a' - 32;
+//        System.out.println(i);
 
-        char i = 'a' - 32;
-        System.out.println(i);
+//        System.out.println(Arrays.toString(ex.twoSum(new int[]{1, 3, 5, 7, 8, 10}, 180)));
+        System.out.println(ex.containerWithMostWater(new int[] {1,8,6,2,5,4,8,3,7}));
+
+    }
+
+    public int containerWithMostWater(int[] heights){
+
+        int left = 0;
+        int right = heights.length-1;
+
+        int maxVolume = Integer.MIN_VALUE;
+
+        while (left<right){
+
+            int result = (right - left) * Math.min(heights[left], heights[right]);
+
+            maxVolume = Math.max(result, maxVolume);
+            if (heights[left] < heights[right]) left++;
+            else right--;
+        }
+
+        return maxVolume;
+    }
+
+    public int[] twoSum(int[] arr, int target){
+
+        int left = 0;
+        int right = arr.length-1;
+
+        while (left < right) {
+
+            if (arr[left] + arr[right] == target) return new int[] {left, right};
+            else if (arr[left] + arr[right] > target) right--;
+            else left++;
+
+        }
+        System.out.println("Target value does not exist in the array.");
+        return new int[] {-1,-1};
 
     }
 
