@@ -1,5 +1,6 @@
 package JDSAlgoMasterclass.recursionExercises;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 
 public class Exercises {
@@ -8,15 +9,32 @@ public class Exercises {
 
         Exercises ex = new Exercises();
 
-//        System.out.println(ex.capitalizeWord("azazaZzazaCDzazAaza"));
-//
-//        char i = 'a' - 32;
-//        System.out.println(i);
-
-//        System.out.println(Arrays.toString(ex.twoSum(new int[]{1, 3, 5, 7, 8, 10}, 180)));
-        System.out.println(ex.containerWithMostWater(new int[] {1,8,6,2,5,4,8,3,7}));
+        System.out.println(Arrays.toString(ex.getAverages(new int[]{7,4,3,9,1,8,5,2,6}, 3)));
 
     }
+
+
+    public int[] getAverages(int[] nums, int k) {
+
+        if (k == 0) return nums;
+
+        int n = nums.length;
+        int[] avgs = new int[n];
+
+        for (int i=0; i<n; i++){
+
+            if ((i < k) || ((n-i-1) < k)) avgs[i] = -1;
+            else{
+                int tempTotal = 0;
+                for (int j=i-k; j<=i+k; j++){
+                    tempTotal += nums[j];
+                }
+                avgs[i] = tempTotal / (2 * k + 1);
+            }
+        }
+        return avgs;
+    }
+
 
     public int containerWithMostWater(int[] heights){
 
