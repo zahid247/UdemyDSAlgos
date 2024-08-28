@@ -1,9 +1,6 @@
 package JDSAlgoMasterclass.leetcode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ReverseWordsInString {
 
@@ -11,15 +8,51 @@ public class ReverseWordsInString {
         ReverseWordsInString rw = new ReverseWordsInString();
 
 
-        String s = "the sky is blue";
-        String s1 = "ab-cd";
-        int[] num1 = {1,2,3};
-        int[] num2 = {2,5};
+//        String s = "the sky is blue";
+//        String s1 = "ab-cd";
+//        int[] num1 = {1,2,3};
+//        int[] num2 = {2,5};
+//
+//        System.out.println(rw.reverseWords(s));
+//        System.out.println(rw.reverseOnlyLetters(s1));
+//        System.out.println(rw.getCommon(num1, num2));
+//
+//        System.out.println(Arrays.toString(rw.moveZeroes(new int[]{0, 1, 0, 3, 12})));
+        System.out.println(rw.reversePrefix("abcdefg", 'd'));
 
-        System.out.println(rw.reverseWords(s));
-        System.out.println(rw.reverseOnlyLetters(s1));
-        System.out.println(rw.getCommon(num1, num2));
+    }
 
+    public String reversePrefix(String word, char ch) {
+        int length = word.length();
+        if (length == 0 || length == 1) return word;
+        int positionOfChar = 0;
+        for (int i = 0; i < length; i++) {
+            if (word.charAt(i) == ch) {
+                positionOfChar = i;
+                break;
+            }
+        }
+        if (positionOfChar == 0) return word;
+        StringBuilder sb = new StringBuilder(word);
+        for (int i = 0; i <= positionOfChar/2; i++) {
+            char temp = sb.charAt(i);
+            sb.setCharAt(i, sb.charAt(positionOfChar-i));
+            sb.setCharAt(positionOfChar-i, temp);
+        }
+        return sb.toString();
+    }
+
+    public int[] moveZeroes(int[] nums) {
+        int lastKnownZero = 0;
+        for (int current = 0; current < nums.length; current++) {
+            if (nums[current] != 0){
+                int temp = nums[current];
+                nums[current] = nums[lastKnownZero];
+                nums[lastKnownZero] = temp;
+                lastKnownZero++;
+            }
+        }
+        return nums;
     }
 
     public int getCommon(int[] nums1, int[] nums2) {
