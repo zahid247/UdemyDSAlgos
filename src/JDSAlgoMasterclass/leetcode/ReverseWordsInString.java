@@ -18,8 +18,34 @@ public class ReverseWordsInString {
 //        System.out.println(rw.getCommon(num1, num2));
 //
 //        System.out.println(Arrays.toString(rw.moveZeroes(new int[]{0, 1, 0, 3, 12})));
-        System.out.println(rw.reversePrefix("abcdefg", 'd'));
+//        System.out.println(rw.reversePrefix("abcdefg", 'd'));
 
+        System.out.println(rw.minSubArrayLen(7, new int[] {2,3,1,2,4,3}));
+
+    }
+
+    //This is not completed yet, still failing some test cases
+    public int minSubArrayLen(int target, int[] nums) {
+        int length = nums.length;
+        int ans = Integer.MAX_VALUE;
+        if (length == 0 || length == 1) return ans;
+        int left = 0, right = 1;
+        int current = nums[left] + nums[right];
+        while (left <= right && right < length) {
+            if (current > target) {
+                current-=nums[left];
+                left++;
+            }
+            else if (current < target) {
+                current+=nums[right];
+                right++;
+            }
+            else{
+                ans = Math.min(right - left + 1, ans);
+                left++;
+            }
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
     }
 
     public String reversePrefix(String word, char ch) {
