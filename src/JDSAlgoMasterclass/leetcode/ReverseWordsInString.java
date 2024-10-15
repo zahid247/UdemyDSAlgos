@@ -27,14 +27,107 @@ public class ReverseWordsInString {
 //        System.out.println(rw.subarraySum(new int[] {1,2,1,2,1}, 3));
 
 
-        System.out.println(2174 & 1); /* the & symbol is the bitwise AND operator.
+//        System.out.println(2174 & 1);
+        /* the & symbol is the bitwise AND operator.
         It performs an AND operation on the binary representation of the two operands.
         In this case, num & 1 performs a bitwise AND between the integer num and 1. The bitwise
         AND operation compares each bit of the two numbers and returns a 1 only when both
         corresponding bits are 1; otherwise, it returns 0.*/
+
+//        System.out.println(rw.findWinners(new int[][] {{1,3},{2,3},{3,6},{5,6},{5,7},{4,5},{4,8},{4,9},{10,4},{10,9}}));
+//        System.out.println(rw.largestUniqueNumber(new int[] {5,7,3,9,4,9,8,3,1}));
+//        System.out.println(rw.largestUniqueNumber(new int[] {9,9,8,8}));
+
+//        System.out.println(rw.maxNumberOfBalloons("nlaebolko"));
+
+
+
     }
 
 
+
+    public int maxNumberOfBalloons(String text) {
+
+        int bCount = 0, aCount = 0, lCount = 0, oCount = 0, nCount = 0;
+
+        // Count the frequencey of all the five characters
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == 'b') {
+                bCount++;
+            } else if (text.charAt(i) == 'a') {
+                aCount++;
+            } else if (text.charAt(i) == 'l') {
+                lCount++;
+            } else if (text.charAt(i) == 'o') {
+                oCount++;
+            } else if (text.charAt(i) == 'n') {
+                nCount++;
+            }
+        }
+
+        // Find the potential of each character.
+        // Except for 'l' and 'o' the potential is equal to the frequency.
+        lCount = lCount / 2;
+        oCount = oCount / 2;
+
+        // Find the bottleneck.
+        return Math.min(bCount, Math.min(aCount, Math.min(lCount, Math.min(oCount, nCount))));
+
+    }
+
+    public int largestUniqueNumber(int[] nums) {
+        if (nums.length < 0) return -1;
+        int max = -1;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            int occurrence = map.get(num);
+            if (occurrence == 1) {
+                if (max < num) max = num;
+            }
+        }
+        return max;
+    }
+
+    public List<List<Integer>> findWinners(int[][] matches) {
+
+        Set<Integer> zeroLoss = new HashSet<>();
+        Set<Integer> oneLoss = new HashSet<>();
+        Set<Integer> moreLoss = new HashSet<>();
+
+        for (int[] match: matches) {
+
+            int winner = match[0];
+            int loser = match[1];
+
+            //first, add the winner
+            if (!oneLoss.contains(winner) && !moreLoss.contains(winner)) zeroLoss.add(winner);
+
+            //second, add the loser
+            if (!oneLoss.contains(loser) && !moreLoss.contains(loser)) oneLoss.add(loser);
+            else {
+                moreLoss.add(loser);
+                oneLoss.remove(loser);
+            }
+
+            if(zeroLoss.contains(loser)) zeroLoss.remove(loser);
+            if(oneLoss.contains(loser) && moreLoss.contains(loser)) oneLoss.remove(loser);
+
+        }
+
+        List<List<Integer>> ans = Arrays.asList(new ArrayList<>(), new ArrayList<>());
+        ans.get(0).addAll(zeroLoss);
+        ans.get(1).addAll(oneLoss);
+
+        Collections.sort(ans.get(0));
+        Collections.sort(ans.get(1));
+
+        return ans;
+
+    }
 
     public int subarraySum(int[] nums, int k) {
 
@@ -61,8 +154,6 @@ public class ReverseWordsInString {
         System.out.println("return ans = " + ans);
         return ans;
     }
-
-
 
     public boolean areOccurrencesEqual(String s) {
 
@@ -118,8 +209,6 @@ public class ReverseWordsInString {
         }
         return res;
     }
-
-
 
     //This is not completed yet, still failing some test cases
     public int minSubArrayLen(int target, int[] nums) {
