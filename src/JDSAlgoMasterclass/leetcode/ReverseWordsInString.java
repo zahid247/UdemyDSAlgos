@@ -40,11 +40,163 @@ public class ReverseWordsInString {
 
 //        System.out.println(rw.maxNumberOfBalloons("nlaebolko"));
 
+//        System.out.println(rw.findMaxLength(new int[] {0,1,0}));
 
+//        System.out.println(rw.canConstruct("aa", "aba"));
 
     }
 
+    public int lengthOfLongestSubstring(String s) {
 
+        int left = 0;
+        int ans = 0;
+
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (int right = 0; right < s.length(); right++) {
+
+            while (map.containsKey(s.charAt(right))){
+                map.remove(s.charAt(left));
+                left++;
+            }
+            char c = s.charAt(right);
+            map.put(c, map.getOrDefault(c, 0) + 1);
+
+            ans = Math.max(ans, right - left + 1);
+        }
+
+        return ans;
+    }
+
+    public int numJewelsInStones(String jewels, String stones) {
+
+        Set<Character> set = new HashSet<>();
+        int ans = 0;
+
+        for (char c : jewels.toCharArray())
+            set.add(c);
+
+        for (int i = 0; i < stones.length(); i++)
+            if (set.contains(stones.charAt(i))) ans++;
+
+        return ans;
+    }
+
+    public boolean canConstruct(String ransomNote, String magazine) {
+
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (char c : ransomNote.toCharArray())
+            map.put(c, map.getOrDefault(c, 0) + 1);
+
+        for (int i = 0; i < magazine.length(); i++){
+            char c = magazine.charAt(i);
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c) - 1);
+                if (map.get(c) == 0) map.remove(c);
+            }
+        }
+        return map.isEmpty();
+    }
+
+    public int equalPairs(int[][] grid) {
+        Map<String, Integer> dic = new HashMap<>();
+        for (int[] row: grid) {
+            String key = convertToKey(row);
+            dic.put(key, dic.getOrDefault(key, 0) + 1);
+        }
+
+        Map<String, Integer> dic2 = new HashMap<>();
+        for (int col = 0; col < grid[0].length; col++) {
+            int[] currentCol = new int[grid.length];
+            for (int row = 0; row < grid.length; row++) {
+                currentCol[row] = grid[row][col];
+            }
+
+            String key = convertToKey(currentCol);
+            dic2.put(key, dic2.getOrDefault(key, 0) + 1);
+        }
+
+        int ans = 0;
+        for (String key: dic.keySet()) {
+            ans += dic.get(key) * dic2.getOrDefault(key, 0);
+        }
+
+        return ans;
+    }
+
+    public String convertToKey(int[] arr) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]);
+            sb.append(",");
+        }
+
+        return sb.toString();
+    }
+
+    public int maximumSum(int[] nums) {
+        Map<Integer, Integer> dic = new HashMap<>();
+        int ans = -1;
+        for (int num:nums){
+            int digitSum = getDigitSum(num);
+            if (dic.containsKey(digitSum)) ans = Math.max(ans, num + dic.get(digitSum));
+            dic.put(digitSum, Math.max(dic.getOrDefault(digitSum, 0), num));
+        }
+        return ans;
+    }
+
+    private int getDigitSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    public int minimumCardPickup(int[] cards) {
+        Map<Integer, Integer> dic = new HashMap<>();
+        int ans = Integer.MAX_VALUE;
+        for (int i = 0; i < cards.length; i++) {
+            int num = cards[i];
+            if (dic.containsKey(num)) ans = Math.min(ans, i - dic.get(num) + 1);
+            dic.put(num, i);
+        }
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs){
+
+        Map<String, List<String>> groups = new HashMap<>();
+
+        for (String s : strs) {
+            char[] arr = s.toCharArray();
+            Arrays.sort(arr);
+
+            String key = new String(arr);
+
+            if (!groups.containsKey(key)) groups.put(key, new ArrayList<>());
+
+            groups.get(key).add(s);
+        }
+        return new ArrayList<>(groups.values());
+    }
+
+    public int findMaxLength(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int maxlen = 0, count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            count = count + (nums[i] == 1 ? 1 : -1);
+            if (map.containsKey(count)) {
+                maxlen = Math.max(maxlen, i - map.get(count));
+            } else {
+                map.put(count, i);
+            }
+        }
+        return maxlen;
+    }
 
     public int maxNumberOfBalloons(String text) {
 
